@@ -1,0 +1,17 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: healthlink
+      POSTGRES_PASSWORD: healthlink
+      POSTGRES_DB: healthlink
+    ports: ["5432:5432"]
+    volumes: [pgdata:/var/lib/postgresql/data]
+  backend:
+    build: ./backend
+    env_file: ./backend/.env
+    depends_on: [db]
+    ports: ["8000:8000"]
+    volumes: ["./backend:/code"]
+volumes:
+  pgdata:
